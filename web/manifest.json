@@ -3,9 +3,9 @@
     "short_name": "Now Playing",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A Very Good Project created by Very Good CLI.",
+    "background_color": "#FAF9F5",
+    "theme_color": "#FAF9F5",
+    "description": "What DJ Biscuits N Gravy is playing now.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
