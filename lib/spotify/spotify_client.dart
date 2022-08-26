@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 import 'dart:math';
 
+import 'package:now_playing/auth/secrets.dart';
 import 'package:now_playing/spotify/spotify.dart';
 import 'package:spotify/spotify.dart' as spotify_pkg;
 
@@ -9,9 +10,6 @@ class SpotifyClient {
 
   static const _spotifyClientId = '63741f6f8175466583a12871a13a2798';
 
-  // TODO(simpson): DO NOT COMMIT WITH THIS
-  static const _spotifyClientSecret = '';
-
   static const _playlistId = '5twmW6lYwfBbOLvT81xtom';
 
   final random = Random(DateTime.now().millisecondsSinceEpoch);
@@ -19,7 +17,7 @@ class SpotifyClient {
   Future<Album> getAlbum() async {
     final credentials = spotify_pkg.SpotifyApiCredentials(
       _spotifyClientId,
-      _spotifyClientSecret,
+      spotifySecret,
     );
     final spotify = spotify_pkg.SpotifyApi(credentials);
 
