@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:now_playing/spotify/spotify.dart';
-import 'package:now_playing/spotify/spotify_client.dart';
 
 part 'album_event.dart';
 part 'album_state.dart';

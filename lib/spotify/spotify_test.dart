@@ -3,6 +3,7 @@ import 'package:now_playing/spotify/spotify_client.dart';
 
 void main() async {
   final _client = http.Client();
-  final spotify = SpotifyClient(_client);
-  await spotify.getAlbum();
+  final spotify = SpotifyClient();
+  final album = await spotify.getAlbum();
+  print(album.name);
 }
