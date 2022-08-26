@@ -5,10 +5,11 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:now_playing/now_playing/now_playing.dart';
-import 'package:now_playing/l10n/l10n.dart';
 
 class NowPlayingPage extends StatelessWidget {
   const NowPlayingPage({Key? key}) : super(key: key);
@@ -17,13 +18,13 @@ class NowPlayingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CounterCubit(),
-      child: const CounterView(),
+      child: const NowPlayingView(),
     );
   }
 }
 
-class CounterView extends StatelessWidget {
-  const CounterView({Key? key}) : super(key: key);
+class NowPlayingView extends StatelessWidget {
+  const NowPlayingView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +32,17 @@ class CounterView extends StatelessWidget {
       backgroundColor: const Color(0xFFFAF9F5),
       body: Center(
         child: Container(
-          width: 400,
-          height: 108,
-          padding: const EdgeInsets.all(5),
+          width: 450,
+          height: 112,
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            border: Border.all(width: 4),
+            border: Border.all(width: 2),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const AlbumArt(),
-              const SizedBox(width: 4),
+              const SizedBox(width: 8),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
@@ -73,13 +75,27 @@ class AlbumArt extends StatelessWidget {
 class PlayingName extends StatelessWidget {
   const PlayingName({Key? key}) : super(key: key);
 
+  static const textStyle = TextStyle(
+    fontFamily: 'Silkscreen',
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text('Now Playing...'),
-        Text('My Bloody Valentine - Loveless'),
+      children: [
+        const Text(
+          'Now Playing...',
+          style: textStyle,
+        ),
+        Text(
+          'My Bloody Valentine - Loveless',
+          style: textStyle.copyWith(
+            fontStyle: FontStyle.italic,
+          ),
+        ),
       ],
     );
   }

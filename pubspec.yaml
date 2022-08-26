@@ -25,3 +25,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  fonts:
+    - family: Silkscreen
+      fonts:
+        - asset: assets/fonts/Silkscreen-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Silkscreen-Regular.ttf
+          weight: 400
