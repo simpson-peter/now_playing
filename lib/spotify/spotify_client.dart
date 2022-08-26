@@ -12,6 +12,8 @@ class SpotifyClient {
   // TODO(simpson): DO NOT COMMIT WITH THIS
   static const _spotifyClientSecret = '';
 
+  static const _playlistId = '5twmW6lYwfBbOLvT81xtom';
+
   final random = Random(DateTime.now().millisecondsSinceEpoch);
 
   Future<Album> getAlbum() async {
@@ -21,7 +23,7 @@ class SpotifyClient {
     );
     final spotify = spotify_pkg.SpotifyApi(credentials);
 
-    final playlist = await spotify.playlists.get('2jMYlIoBBmUiM7YK59WJnL');
+    final playlist = await spotify.playlists.get(_playlistId);
     final tracks = playlist.tracks!.itemsNative;
     final dynamic randomTrackJson =
         tracks!.elementAt(random.nextInt(tracks.length));
