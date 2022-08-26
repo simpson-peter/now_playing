@@ -18,7 +18,10 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
     AlbumRequested event,
     Emitter<AlbumState> emit,
   ) async {
-    emit(state.copyWith(status: AlbumStatus.loading));
+    if (state.album == null) {
+      emit(state.copyWith(status: AlbumStatus.loading));
+    }
+
     try {
       final album = await _spotifyClient.getAlbum();
       emit(state.copyWith(status: AlbumStatus.populated, album: album));
