@@ -9,7 +9,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:now_playing/bloc/bloc.dart';
 import 'package:now_playing/now_playing/now_playing.dart';
+import 'package:now_playing/spotify/spotify.dart';
 
 class NowPlayingPage extends StatelessWidget {
   const NowPlayingPage({Key? key}) : super(key: key);
@@ -30,28 +32,82 @@ class NowPlayingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F5),
-      body: Center(
-        child: Container(
-          width: 450,
-          height: 112,
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            border: Border.all(width: 2),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const AlbumArt(),
-              const SizedBox(width: 8),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  SizedBox(height: 1),
-                  PlayingName(),
-                  SizedBox(height: 1),
-                ],
-              ),
-            ],
+      body: BlocBuilder<AlbumBloc, AlbumState>(
+        builder: (context, state) {
+          if (state.status == AlbumStatus.populated) {
+            return AlbumPopulated(album: state.album!);
+          } else if (state.status == AlbumStatus.failure) {
+            return const Visibility(visible: false, child: SizedBox(width: 0));
+          } else {
+            return const AlbumLoading();
+          }
+        },
+      ),
+    );
+  }
+}
+
+class AlbumPopulated extends StatelessWidget {
+  const AlbumPopulated({
+    required this.album,
+    Key? key,
+  }) : super(key: key);
+
+  final Album album;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 450,
+        height: 112,
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          border: Border.all(width: 2),
+        ),
+        child: Row(
+          children: [
+            AlbumArt(
+              imageUrl: album.imageUrl,
+            ),
+            const SizedBox(width: 8),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(height: 1),
+                PlayingName(
+                  artistName: album.artist,
+                  albumName: album.name,
+                ),
+                const SizedBox(height: 1),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AlbumLoading extends StatelessWidget {
+  const AlbumLoading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 450,
+        height: 112,
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          border: Border.all(width: 2),
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.refresh,
+            size: 60,
           ),
         ),
       ),
@@ -60,12 +116,14 @@ class NowPlayingView extends StatelessWidget {
 }
 
 class AlbumArt extends StatelessWidget {
-  const AlbumArt({Key? key}) : super(key: key);
+  const AlbumArt({required this.imageUrl, Key? key}) : super(key: key);
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      'https://upload.wikimedia.org/wikipedia/en/4/4b/My_Bloody_Valentine_-_Loveless.png',
+      imageUrl,
       width: 100,
       height: 100,
     );
@@ -73,12 +131,19 @@ class AlbumArt extends StatelessWidget {
 }
 
 class PlayingName extends StatelessWidget {
-  const PlayingName({Key? key}) : super(key: key);
+  const PlayingName({
+    required this.albumName,
+    required this.artistName,
+    Key? key,
+  }) : super(key: key);
+
+  final String albumName;
+  final String artistName;
 
   static const textStyle = TextStyle(
     fontFamily: 'Silkscreen',
     fontSize: 14,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w500,
   );
 
   @override
@@ -86,12 +151,14 @@ class PlayingName extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'Now Playing...',
-          style: textStyle,
+          style: textStyle.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
         ),
         Text(
-          'My Bloody Valentine - Loveless',
+          '$artistName - $albumName',
           style: textStyle.copyWith(
             fontStyle: FontStyle.italic,
           ),

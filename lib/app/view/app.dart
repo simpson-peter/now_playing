@@ -6,15 +6,22 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:now_playing/bloc/bloc.dart';
 import 'package:now_playing/now_playing/now_playing.dart';
+import 'package:now_playing/spotify/spotify_client.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: NowPlayingPage(),
+    return MaterialApp(
+      home: BlocProvider(
+        create: (context) => AlbumBloc(spotifyClient: SpotifyClient())
+          ..add(const AlbumRequested()),
+        child: const NowPlayingPage(),
+      ),
     );
   }
 }
