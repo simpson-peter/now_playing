@@ -19,6 +19,3 @@ jobs:
 
       - name: Analyze
         run: flutter analyze lib
-
-      - name: Check Code Coverage
-        uses: VeryGoodOpenSource/very_good_coverage@v1.2.0
